@@ -1,12 +1,21 @@
 import EmployersListItem from "../employers-list-item/employers-list-item";
 import './employers-list.css';
 
-const  EmployersList = () => {
+// array with object -> sort item -> return new array.
+const  EmployersList = ({data}) => {
+
+    const elements = data.map(item => {
+       return (
+           // array with components
+           // name={item.name} salary={item.salary}
+           <EmployersListItem {...item}/>
+       )
+    });
+
+    // return elements(object)
     return (
         <ul className="app-list list-group">
-            <EmployersListItem/>
-            <EmployersListItem/>
-            <EmployersListItem/>
+            {elements}
         </ul>
     )
 }
