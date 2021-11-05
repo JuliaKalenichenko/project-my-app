@@ -2,7 +2,7 @@ import EmployersListItem from "../employers-list-item/employers-list-item";
 import './employers-list.css';
 
 // array with object -> sort item -> return new array.
-const  EmployersList = ({data}) => {
+const  EmployersList = ({data, onDelete}) => {
 
     const elements = data.map(item => {
         //Destructuring by residual principle
@@ -10,7 +10,12 @@ const  EmployersList = ({data}) => {
         return (
            // array with components
            // name={item.name} salary={item.salary}
-           <EmployersListItem key={id} {...itemProps}/>
+           <EmployersListItem
+               key={id}
+               {...itemProps}
+               // props witch function -> button
+               // Передача свойств prop -> -> ->
+                onDelete={() => onDelete(id)}/>
        )
     });
 
