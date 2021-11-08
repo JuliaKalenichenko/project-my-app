@@ -19,6 +19,9 @@ class EmployersAddForm extends Component {
     onSubmit = (e) => {
         // отменяет
         e.preventDefault();
+
+        if (this.state.name.length < 2 || !this.state.salary) return;
+
         // добавить в props new data
         this.props.onAdd(this.state.name, this.state.salary);
         // изменям state -> пустые значения аргументы
@@ -49,7 +52,6 @@ render () {
                        name="salary"
                        value={salary}
                        onChange={this.onValueChange}/>
-
                  <button type="submit"
                         className="btn btn-outline-light">Добавить</button>
                 </form>

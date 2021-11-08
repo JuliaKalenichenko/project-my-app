@@ -12,12 +12,12 @@ class App extends Component {
         super(props);
         this.state = {
             data: [
-                {name: 'John C.' , salary: 800,  increase: false, id: 1},
-                {name: 'Alex M.' , salary: 3000, increase: true, id: 2},
-                {name: 'Carl W.' , salary: 5000, increase: false, id: 3}
+                {name: 'John C.' , salary: 800,  increase: false, like: true, id: 1},
+                {name: 'Alex M.' , salary: 3000, increase: true, like: false, id: 2},
+                {name: 'Carl W.' , salary: 5000, increase: false, like: false, id: 3}
             ]
         }
-        this.maxId = 4;
+        this.maxId = 4; // new for regeneration
     }
 
     deleteItem = (id) => {
@@ -26,16 +26,15 @@ class App extends Component {
             // method array => true -> index elem
             // const index = data.findIndex(elem => elem.id === id);
 
-            // 0 - до последнего index
+            // 0 - last index
             const before = data.slice(0, index);
-            // от последного + 1
+            // from found + 1 - end array
             const after = data.slice(index + 1);
 
             const newArray = [...before, ...after];
             */
-
             return {
-                // elem != elem delete
+                // new.Array (item -> если id != which  receive)
                 data: data.filter(item => item.id !== id)
             }
         })
@@ -46,6 +45,7 @@ class App extends Component {
             name,
             salary,
             increase: false,
+            like: false,
             id: this.maxId++
     }
         this.setState(({data}) => {
@@ -56,20 +56,49 @@ class App extends Component {
         });
     }
 
+    onToggleProp = (id, prop) => {
+      /* this.setState(({data}) => {
+           const index = data.findIndex(elem => elem.id === id);
+            // copy object
+           const old = data[index];
+           // Разворот object{...old} -> newObject
+           // , properties = {...old} -> write after replace old properties
+           // new properties -> value = increase - properties.
+           const newItem = {...old, increase: !old.increase};
+           const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+
+           return {
+               data: newArr
+           }
+       })
+       */
+        this.setState(({data}) => ({
+            data: data.map(item => { // return new Array
+                if (item.id === id) {
+                    // return new Object witch properties(old Object).
+                    return {...item, [prop]: !item[prop]}
+                }
+                return item; // array object with one modified value
+            })
+        }))
+    }
+
+
     render () {
+        const employees = this.state.data.length;
+        const increased = this.state.data.filter(item => item.increase).length;
         return (
             <div className="app">
-                <AppInfo/>
-
+                <AppInfo employees={employees} increased={increased}/>
                 <div className="search-panel">
                     <SearchPanel/>
                     <AppFilter/>
                 </div>
-
                 <EmployersList
                     data={this.state.data}
                     onDelete={this.deleteItem}
-                    addItem={this.addItem}/>
+                    addItem={this.addItem}
+                    onToggleProp={this.onToggleProp}/>
                 <EmployersAddForm onAdd={this.addItem}/>
             </div>
         );
