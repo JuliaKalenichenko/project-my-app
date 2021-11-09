@@ -2,7 +2,7 @@ import EmployersListItem from "../employers-list-item/employers-list-item";
 import './employers-list.css';
 
 // array with object -> sort item -> return new array.
-const  EmployersList = ({data, onDelete, onToggleProp}) => {
+const EmployersList = ({data, onDelete, onToggleProp}) => {
 
     const elements = data.map(item => {
         //Destructuring by residual principle
